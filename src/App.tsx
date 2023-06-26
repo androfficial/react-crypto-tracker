@@ -20,7 +20,7 @@ const App: React.FC = () => {
   };
 
   const handleSocketMessage = (socketMessage: SocketMessage): void => {
-    const { TYPE, FROMSYMBOL, TOSYMBOL, PRICE, OPEN24HOUR } = socketMessage;
+    const { TYPE, FROMSYMBOL, PRICE, OPEN24HOUR } = socketMessage;
 
     if (TYPE === '2') {
       setCryptoData((prev) => {
@@ -31,7 +31,6 @@ const App: React.FC = () => {
             ...prev,
             [FROMSYMBOL]: {
               name: FROMSYMBOL,
-              symbol: TOSYMBOL,
               previousPrice: PRICE,
               price: PRICE,
               open24hour: OPEN24HOUR,
@@ -49,7 +48,6 @@ const App: React.FC = () => {
           [FROMSYMBOL]: {
             ...prev[FROMSYMBOL],
             name: FROMSYMBOL,
-            symbol: TOSYMBOL,
             previousPrice: prev[FROMSYMBOL].price,
             price: PRICE || prev[FROMSYMBOL].price,
             previousDailyChange: prev[FROMSYMBOL].previousDailyChange,
@@ -74,13 +72,12 @@ const App: React.FC = () => {
     <div className='flex flex-col gap-y-8 p-4 pt-6'>
       <h1 className='text-center text-4xl font-bold'>Cryptocurrency Tracker</h1>
       <div className='overflow-x-auto'>
-        <table className='w-full border-collapse'>
+        <table className='w-full table-auto border-collapse'>
           <thead>
             <tr>
               <th className='border p-4'>Favorite</th>
               <th className='border p-4'>#</th>
               <th className='border p-4'>Name</th>
-              <th className='border p-4'>Symbol</th>
               <th className='border p-4'>Price</th>
               <th className='border p-4'>24h%</th>
             </tr>

@@ -48,11 +48,10 @@ export const CryptoItem: React.FC<CryptoItemProps> = ({
           )}
         </button>
       </td>
-      <td className='text-black-500 w-1/6 border p-4'>{index}</td>
-      <td className='text-black-500 w-1/6 border p-4'>{crypto.name}</td>
-      <td className='text-black-500 w-1/6 border p-4'>{crypto.symbol}</td>
-      <td className={`w-1/6 border p-4 ${priceColorClass}`}>{getFormattedPrice(crypto.price)}</td>
-      <td className={`w-1/6 border p-4 ${percentageColorClass}`}>
+      <td className='text-black-500 w-1/5 border p-4'>{index}</td>
+      <td className='text-black-500 w-1/5 border p-4'>{crypto.name}</td>
+      <td className={`w-1/4 border p-4 ${priceColorClass}`}>{getFormattedPrice(crypto.price)}</td>
+      <td className={`w-1/4 border p-4 ${percentageColorClass}`}>
         {getFormattedPercentage(crypto.dailyChange)}
       </td>
     </tr>
