@@ -1,16 +1,16 @@
 import { ReactComponent as StarFillIcon } from '@/assets/star-fill.svg';
 import { ReactComponent as StarStrokeIcon } from '@/assets/star-stroke.svg';
 import { getFormattedPercentage, getFormattedPrice } from '@/helpers/helpers';
-import { CryptoInfo } from '@/types/types';
+import { ICryptoInfo } from '@/types/types';
 
-interface CryptoItemProps {
+interface ICryptoItemProps {
   index: number;
-  crypto: CryptoInfo;
+  crypto: ICryptoInfo;
   toggleFavorite: (name: string) => void;
   isFavorite: boolean;
 }
 
-export const CryptoItem: React.FC<CryptoItemProps> = ({
+export const CryptoItem: React.FC<ICryptoItemProps> = ({
   index,
   crypto,
   toggleFavorite,

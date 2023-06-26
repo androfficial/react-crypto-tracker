@@ -1,4 +1,4 @@
-export interface CryptoInfo {
+export interface ICryptoInfo {
   name: string;
   previousPrice: number;
   price: number;
@@ -7,7 +7,7 @@ export interface CryptoInfo {
   dailyChange: number;
 }
 
-export interface SocketMessage {
+export interface ISocketMessage {
   TYPE: string;
   FROMSYMBOL: string;
   PRICE: number;

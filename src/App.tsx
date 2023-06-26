@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { closeWebSocket, connectWebSocket } from './api/api';
-import { CryptoItem } from './components/CryptoItem';
-import { useLocalStorage } from './hooks/useLocalStorage';
-import { CryptoInfo, SocketMessage } from './types/types';
+import { Table } from './components/Table';
+import { useFavoriteCryptos } from './hooks/useFavoriteCryptos';
+import { ICryptoInfo, ISocketMessage } from './types/types';
 
 const App: React.FC = () => {
-  const [cryptoData, setCryptoData] = useState<{ [key: string]: CryptoInfo }>({});
-  const [favorites, setFavorites] = useLocalStorage<string[]>('favorites', []);
+  const { favorites, setFavorites } = useFavoriteCryptos();
+  const [cryptoData, setCryptoData] = useState<{ [key: string]: ICryptoInfo }>({});
 
   const socketRef = useRef<WebSocket | null>(null);
 
@@ -19,7 +19,11 @@ const App: React.FC = () => {
     );
   };
 
-  const handleSocketMessage = (socketMessage: SocketMessage): void => {
+  const favoriteCryptoData = Object.values(cryptoData).filter((crypto) =>
+    favorites.includes(crypto.name)
+  );
+
+  const handleSocketMessage = (socketMessage: ISocketMessage): void => {
     const { TYPE, FROMSYMBOL, PRICE, OPEN24HOUR } = socketMessage;
 
     if (TYPE === '2') {
@@ -69,32 +73,25 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className='flex flex-col gap-y-8 p-4 pt-6'>
-      <h1 className='text-center text-4xl font-bold'>Cryptocurrency Tracker</h1>
-      <div className='overflow-x-auto'>
-        <table className='w-full table-auto border-collapse'>
-          <thead>
-            <tr>
-              <th className='border p-4'>Favorite</th>
-              <th className='border p-4'>#</th>
-              <th className='border p-4'>Name</th>
-              <th className='border p-4'>Price</th>
-              <th className='border p-4'>24h%</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.values(cryptoData).map((crypto, i) => (
-              <CryptoItem
-                key={crypto.name}
-                index={i + 1}
-                crypto={crypto}
-                toggleFavorite={toggleFavorite}
-                isFavorite={favorites.includes(crypto.name)}
-              />
-            ))}
-          </tbody>
-        </table>
+    <div className='flex flex-col gap-y-12 p-4 pt-6'>
+      <div className='flex flex-col gap-y-8'>
+        <h1 className='text-center text-4xl font-bold'>Cryptocurrency Tracker</h1>
+        <Table
+          cryptoData={Object.values(cryptoData)}
+          toggleFavorite={toggleFavorite}
+          favorites={favorites}
+        />
       </div>
+      {favoriteCryptoData.length > 0 && (
+        <div className='flex flex-col gap-y-8'>
+          <h1 className='text-center text-4xl font-bold'>Favorites</h1>
+          <Table
+            cryptoData={favoriteCryptoData}
+            toggleFavorite={toggleFavorite}
+            favorites={favorites}
+          />
+        </div>
+      )}
     </div>
   );
 };

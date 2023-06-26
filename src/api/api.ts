@@ -1,8 +1,8 @@
 import { subs } from '@/config/subscriptions';
 import { WebSocketAction } from '@/enums/enums';
-import { SocketMessage } from '@/types/types';
+import { ISocketMessage } from '@/types/types';
 
-export const connectWebSocket = (onMessage: (socketMessage: SocketMessage) => void): void => {
+export const connectWebSocket = (onMessage: (socketMessage: ISocketMessage) => void): void => {
   const socket = new WebSocket(
     `${import.meta.env.VITE_SOCKET_URL as string}?api_key=${import.meta.env.VITE_API_KEY as string}`
   );
@@ -14,7 +14,7 @@ export const connectWebSocket = (onMessage: (socketMessage: SocketMessage) => vo
 
   socket.onmessage = (event: MessageEvent) => {
     try {
-      const socketMessage = JSON.parse(event.data as string) as SocketMessage;
+      const socketMessage = JSON.parse(event.data as string) as ISocketMessage;
       onMessage(socketMessage);
     } catch (error) {
       console.error('Error parsing WebSocket message:', error);
