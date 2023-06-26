@@ -1,11 +1,10 @@
 import { subs } from '@/config/subscriptions';
+import { SOCKET_URL } from '@/constants/constants';
 import { WebSocketAction } from '@/enums/enums';
 import { ISocketMessage } from '@/types/types';
 
 export const connectWebSocket = (onMessage: (socketMessage: ISocketMessage) => void): void => {
-  const socket = new WebSocket(
-    `${import.meta.env.VITE_SOCKET_URL as string}?api_key=${import.meta.env.VITE_API_KEY as string}`
-  );
+  const socket = new WebSocket(`${SOCKET_URL}?api_key=${import.meta.env.VITE_API_KEY as string}`);
 
   socket.onopen = () => {
     console.log('WebSocket connection established.');

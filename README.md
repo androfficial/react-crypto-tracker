@@ -1,5 +1,24 @@
 ## :scorpion: React Crypto Tracker
 
+### :pencil: Description
+
+> Your design decisions and why you made them
+
+Design decisions were made after looking at other cryptocurrency tracking sites.
+
+> How to use your project (if it's not self-explanatory)
+
+For the project to work correctly on the localhost, you need:
+
+- Register and get a free API key for the correct operation of websockets [Get API Key](https://min-api.cryptocompare.com/).
+- Create a `.env` file in the root of the app and place a variable with your API key in it
+
+```bash
+VITE_API_KEY="YOUR_API_KEY"
+```
+
+---
+
 ### :link: Installation
 
 #### Clone repo
