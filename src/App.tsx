@@ -25,14 +25,18 @@ const App: React.FC = () => {
     if (TYPE === '2') {
       setCryptoData((prev) => {
         if (OPEN24HOUR) {
+          const dailyChange = ((PRICE - OPEN24HOUR) / OPEN24HOUR) * 100;
+
           return {
             ...prev,
             [FROMSYMBOL]: {
               name: FROMSYMBOL,
               symbol: TOSYMBOL,
+              previousPrice: PRICE,
               price: PRICE,
               open24hour: OPEN24HOUR,
-              dailyChange: ((PRICE - OPEN24HOUR) / OPEN24HOUR) * 100,
+              previousDailyChange: dailyChange,
+              dailyChange,
             },
           };
         }
@@ -46,7 +50,9 @@ const App: React.FC = () => {
             ...prev[FROMSYMBOL],
             name: FROMSYMBOL,
             symbol: TOSYMBOL,
-            price: PRICE,
+            previousPrice: prev[FROMSYMBOL].price,
+            price: PRICE || prev[FROMSYMBOL].price,
+            previousDailyChange: prev[FROMSYMBOL].previousDailyChange,
             dailyChange,
           },
         };
@@ -65,15 +71,33 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      {Object.values(cryptoData).map((crypto) => (
-        <CryptoItem
-          key={crypto.name}
-          crypto={crypto}
-          toggleFavorite={toggleFavorite}
-          isFavorite={favorites.includes(crypto.name)}
-        />
-      ))}
+    <div className='flex flex-col gap-y-8 p-4 pt-6'>
+      <h1 className='text-center text-4xl font-bold'>Cryptocurrency Tracker</h1>
+      <div className='overflow-x-auto'>
+        <table className='w-full border-collapse'>
+          <thead>
+            <tr>
+              <th className='border p-4'>Favorite</th>
+              <th className='border p-4'>#</th>
+              <th className='border p-4'>Name</th>
+              <th className='border p-4'>Symbol</th>
+              <th className='border p-4'>Price</th>
+              <th className='border p-4'>24h%</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.values(cryptoData).map((crypto, i) => (
+              <CryptoItem
+                key={crypto.name}
+                index={i + 1}
+                crypto={crypto}
+                toggleFavorite={toggleFavorite}
+                isFavorite={favorites.includes(crypto.name)}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

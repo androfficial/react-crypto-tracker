@@ -1,8 +1,10 @@
 export interface CryptoInfo {
   name: string;
   symbol: string;
+  previousPrice: number;
   price: number;
   open24hour: number;
+  previousDailyChange: number;
   dailyChange: number;
 }
 

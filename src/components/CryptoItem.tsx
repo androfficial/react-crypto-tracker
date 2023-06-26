@@ -1,27 +1,60 @@
+import { ReactComponent as StarFillIcon } from '@/assets/star-fill.svg';
+import { ReactComponent as StarStrokeIcon } from '@/assets/star-stroke.svg';
 import { getFormattedPercentage, getFormattedPrice } from '@/helpers/helpers';
 import { CryptoInfo } from '@/types/types';
 
 interface CryptoItemProps {
+  index: number;
   crypto: CryptoInfo;
   toggleFavorite: (name: string) => void;
   isFavorite: boolean;
 }
 
 export const CryptoItem: React.FC<CryptoItemProps> = ({
-  isFavorite,
+  index,
   crypto,
   toggleFavorite,
+  isFavorite,
 }): JSX.Element => {
+  const isPriceDecreased = crypto.price < crypto.previousPrice;
+  const isPriceIncreased = crypto.price > crypto.previousPrice;
+
+  const isPercentageDecreased = crypto.dailyChange < crypto.previousDailyChange;
+  const isPercentageIncreased = crypto.dailyChange > crypto.previousDailyChange;
+
+  const priceColorClass = isPriceDecreased
+    ? 'text-red-500'
+    : isPriceIncreased
+    ? 'text-green-500'
+    : 'text-black-500';
+
+  const percentageColorClass = isPercentageDecreased
+    ? 'text-red-500'
+    : isPercentageIncreased
+    ? 'text-green-500'
+    : 'text-black-500';
+
   return (
-    <div>
-      <div>{`Name: ${crypto.name}`}</div>
-      <div>{`Symbol: ${crypto.symbol}`}</div>
-      <div>{`Price: ${getFormattedPrice(crypto.price)}`}</div>
-      <div>{`Daily Change: ${getFormattedPercentage(crypto.dailyChange)}`}</div>
-      <button onClick={() => toggleFavorite(crypto.name)}>
-        {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
-      </button>
-      <br />
-    </div>
+    <tr className='border-b bg-gray-100 text-center font-semibold text-cyan-700'>
+      <td className='flex items-center justify-center border border-b-0 border-t-0 p-4'>
+        <button
+          onClick={() => toggleFavorite(crypto.name)}
+          className='flex items-center justify-center'
+        >
+          {isFavorite ? (
+            <StarFillIcon width={32} height={32} />
+          ) : (
+            <StarStrokeIcon width={32} height={32} />
+          )}
+        </button>
+      </td>
+      <td className='text-black-500 w-1/6 border p-4'>{index}</td>
+      <td className='text-black-500 w-1/6 border p-4'>{crypto.name}</td>
+      <td className='text-black-500 w-1/6 border p-4'>{crypto.symbol}</td>
+      <td className={`w-1/6 border p-4 ${priceColorClass}`}>{getFormattedPrice(crypto.price)}</td>
+      <td className={`w-1/6 border p-4 ${percentageColorClass}`}>
+        {getFormattedPercentage(crypto.dailyChange)}
+      </td>
+    </tr>
   );
 };
