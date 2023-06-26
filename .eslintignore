@@ -1,0 +1,6 @@
+vite.config.ts
+src/vite-env.d.ts
+postcss.config.js
+prettier.config.js
+tailwind.config.js
+dist
