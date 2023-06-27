@@ -1,11 +1,11 @@
-name: Lint and Deploy
+name: Lint
 
 on:
   push:
     branches: main
 
 jobs:
-  lint-and-deploy:
+  lint:
     runs-on: ubuntu-latest
     strategy:
       matrix:
