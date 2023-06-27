@@ -1,0 +1,36 @@
+name: Lint and Deploy
+
+on:
+  push:
+    branches: main
+
+jobs:
+  lint-and-deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.14.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: ESLint Check
+        run: yarn eslint:check
+
+      - name: Prettier Check
+        run: yarn format:check
+
+      - name: Build
+        run: yarn build
