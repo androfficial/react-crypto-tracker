@@ -13,15 +13,11 @@ const App: React.FC = () => {
 
   const toggleFavorite = (name: string): void => {
     setFavorites((prevFavorites) =>
-      prevFavorites.includes(name)
-        ? prevFavorites.filter((crypto) => crypto !== name)
-        : [...prevFavorites, name]
+      prevFavorites.includes(name) ? prevFavorites.filter((crypto) => crypto !== name) : [...prevFavorites, name]
     );
   };
 
-  const favoriteCryptoData = Object.values(cryptoData).filter((crypto) =>
-    favorites.includes(crypto.name)
-  );
+  const favoriteCryptoData = Object.values(cryptoData).filter((crypto) => favorites.includes(crypto.name));
 
   const handleSocketMessage = (socketMessage: ISocketMessage): void => {
     const { TYPE, FROMSYMBOL, PRICE, OPEN24HOUR } = socketMessage;
@@ -44,8 +40,7 @@ const App: React.FC = () => {
           };
         }
 
-        const dailyChange =
-          ((PRICE - prev[FROMSYMBOL]?.open24hour) / prev[FROMSYMBOL]?.price) * 100 || 0;
+        const dailyChange = ((PRICE - prev[FROMSYMBOL]?.open24hour) / prev[FROMSYMBOL]?.price) * 100 || 0;
 
         return {
           ...prev,
@@ -76,20 +71,12 @@ const App: React.FC = () => {
     <div className='flex flex-col gap-y-12 p-4 pt-6'>
       <div className='flex flex-col gap-y-8'>
         <h1 className='text-center text-4xl font-bold'>Cryptocurrency Tracker</h1>
-        <Table
-          cryptoData={Object.values(cryptoData)}
-          toggleFavorite={toggleFavorite}
-          favorites={favorites}
-        />
+        <Table cryptoData={Object.values(cryptoData)} toggleFavorite={toggleFavorite} favorites={favorites} />
       </div>
       {favoriteCryptoData.length > 0 && (
         <div className='flex flex-col gap-y-8'>
           <h1 className='text-center text-4xl font-bold'>Favorites</h1>
-          <Table
-            cryptoData={favoriteCryptoData}
-            toggleFavorite={toggleFavorite}
-            favorites={favorites}
-          />
+          <Table cryptoData={favoriteCryptoData} toggleFavorite={toggleFavorite} favorites={favorites} />
         </div>
       )}
     </div>

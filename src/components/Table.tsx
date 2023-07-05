@@ -8,11 +8,7 @@ interface ITableProps {
   favorites: string[];
 }
 
-export const Table: React.FC<ITableProps> = ({
-  cryptoData,
-  toggleFavorite,
-  favorites,
-}): JSX.Element => {
+export const Table: React.FC<ITableProps> = ({ cryptoData, toggleFavorite, favorites }): JSX.Element => {
   return (
     <div className='overflow-x-auto'>
       <table className='w-full table-auto border-collapse'>
