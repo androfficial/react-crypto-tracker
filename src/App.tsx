@@ -69,7 +69,7 @@ const App: React.FC = () => {
 
   return (
     <div className='flex flex-col gap-y-12 p-4 pt-6'>
-      <div className='flex flex-col gap-y-8'>
+      <div className='flex flex-grow-0 flex-col gap-y-8'>
         <h1 className='text-center text-4xl font-bold'>Cryptocurrency Tracker</h1>
         <Table cryptoData={Object.values(cryptoData)} toggleFavorite={toggleFavorite} favorites={favorites} />
       </div>
